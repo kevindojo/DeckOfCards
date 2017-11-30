@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Deck Of Cards</title>
+        <!-- ES5 Method -->
+    </head>
+    <body>
+        <script>
+
+            var Deck = function Deck(){
+    
+                this.deck = [];
+                this.reset();
+                this.shuffle();
+            };
+
+
+            Deck.prototype.shuffle = function(){
+                var m = this.deck.length;
+                var t;
+                var i;
+
+                while(m){
+                    i = Math.floor(Math.random() * m--);
+
+                    t = this.deck[m];
+                    this.deck[m] = this.deck[i];
+                    this.deck[i] = t;
+                }
+                return this;
+            };
+
+
+            Deck.prototype.reset = function() {
+                this.deck = [];
+                var suits = ['Hearts', 'Diamonds', 'Spades', 'Clubs'];
+                var pips = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
+
+                for (var suit in suits){
+                    for(var pip in pips){
+                        this.deck.push(pips[pip] + ' of ' + suits[suit])
+                    }
+                }
+                return this;
+            };
+
+            Deck.prototype.deal = function(){
+                return this.deck.pop();
+                //by returning this, it allows the function to chain
+            }
+
+
+
+            var Player = function Player(name){
+                this.name = name;
+                this.hand = [];
+            }
+
+            Player.prototype.draw = function(deck){
+                this.hand.push(deck.deal());
+                return this;
+                //by returning this, it allows the function to chain
+            }
+
+            Player.prototype.discard = function(i){
+                return this.hand.pop();
+            }
+
+
+            var deck1 = new Deck();
+
+            // deck1.shuffle();
+            // console.log(deck1.deck);
+            // deck1.reset();
+            // console.log(deck1.deck);
+
+            console.log(deck1.deal());
+            console.log(deck1.deck.length);
+
+
+            var player1 = new Player('Bond');
+            player1.draw(deck1).draw(deck1);
+            console.log(player1.hand);
+            player1.discard();
+            console.log(player1.hand);
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
